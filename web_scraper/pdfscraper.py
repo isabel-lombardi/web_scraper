@@ -43,3 +43,53 @@ class PDFScraper:
         except requests.exceptions.HTTPError as err:
             print(err)
             sys.exit(1)
+
+
+    def save_pdf(self):
+        """
+        Given the URL containing the PDF file, the name of the folder to save the file is asked,
+        it is extracted and saved locally.
+
+        """
+
+        path = input(str("\nWhere do you want to save the extracted file?\nEnter the folder name: "))
+
+        # create folder if it does not exist
+        if not os.path.exists(path):
+            os.makedirs(path)
+
+        try:
+            # get, to retrieve data
+            r = requests.get(self.pdf_URL, stream=True)  # if True will keep our session with server open
+            r.raise_for_status()  # implement a different actions for the different error types
+
+            try:
+                # The URL containing the PDF could be for example:
+                # https://www.kaleyra.com/wp-content/uploads/SMS-surcharge-USA-1.pdf
+                # I extract the filename after the last "/"
+                filename = self.pdf_URL.split("/")[-1]
+
+                file_path = os.path.join(path, filename)
+
+                if str(file_path).endswith(".pdf"):  # check if the file is a PDF
+                    with open(file_path, "wb") as file:  # iterates over the response data
+
+                        for chunk in r.iter_content(chunk_size=1024):  # number of bytes it should read into memory
+                            if chunk:  # writing one chunk at a time to pdf file
+                                file.write(chunk)
+                                file.flush()
+                                os.fsync(file.fileno())  # forces write of file to disk.
+                        print("\n-The file '{}' is available in the folder '{}'".format(filename, path))
+                        return file_path
+
+                else:
+                    raise Exception("File format not supported")
+
+            # when we attempt to open a file and if it does not exist, the IOError will be encountered
+            except (IOError, OSError) as ioe:
+                print(ioe.errno)
+                print(ioe)
+
+        except requests.exceptions.HTTPError as err:
+            print(err)
+            sys.exit(1)
