@@ -24,9 +24,18 @@ class ExtractData:
         df.columns = df.iloc[0]
         df = df[1:]
 
-        # Missing data in the document was represented by a "-"
-        # I turn it into a NaN value
-        df = df.replace("-", np.nan)
+        # replace No-Break
+        # Missing data in the document was represented by a "-", turn it into a NaN value
+        df = df.replace({"\u00A0": " ", "-": np.nan}, regex=True)
+        df.columns = df.columns.str.replace("\u00A0", " ")
+
+        for i in range(2, 4):
+            # remove currency symbols
+            df.iloc[:, i].replace(to_replace="[^0-9\.-]", value="", regex=True, inplace=True)
+
+            # df column from object to float
+            df.iloc[:, i] = pd.to_numeric(df.iloc[:, i])
+
 
         # save dataframe
         # remove file extension (PDF) and save csv with the same filename
