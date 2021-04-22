@@ -45,18 +45,16 @@ class PDFScraper:
             sys.exit(1)
 
 
-    def save_pdf(self):
+    def save_pdf(self, output_path):
         """
         Given the URL containing the PDF file, the name of the folder to save the file is asked,
         it is extracted and saved locally.
 
         """
 
-        path = input(str("\nWhere do you want to save the extracted file?\nEnter the folder name: "))
-
         # create folder if it does not exist
-        if not os.path.exists(path):
-            os.makedirs(path)
+        if not os.path.exists(output_path):
+            os.makedirs(output_path)
 
         try:
             # get, to retrieve data
@@ -69,7 +67,7 @@ class PDFScraper:
                 # I extract the filename after the last "/"
                 filename = self.pdf_URL.split("/")[-1]
 
-                file_path = os.path.join(path, filename)
+                file_path = os.path.join(output_path, filename)
 
                 if str(file_path).endswith(".pdf"):  # check if the file is a PDF
                     with open(file_path, "wb") as file:  # iterates over the response data
@@ -79,7 +77,7 @@ class PDFScraper:
                                 file.write(chunk)
                                 file.flush()
                                 os.fsync(file.fileno())  # forces write of file to disk.
-                        print("\n-The file '{}' is available in the folder '{}'".format(filename, path))
+                        print("\n-The file '{}' is available in the folder '{}'".format(filename, output_path))
                         return file_path
 
                 else:
