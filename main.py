@@ -1,5 +1,5 @@
 from web_scraper.pdfscraper import PDFScraper
-
+from web_scraper.extract_data import ExtractData
 
 def generate_url(URL):
     """
@@ -24,3 +24,16 @@ def generate_url(URL):
 
         else:
             print("Price list is not available for this State or does not exist. Choose between USA and Canada")
+
+
+if __name__ == '__main__':
+    URL = "https://www.kaleyra.com/pricing/"
+
+    url = generate_url(URL)
+
+    s = PDFScraper(url)
+    s.get_pdf()
+    pdf_path = s.save_pdf()
+
+    e = ExtractData(pdf_path)
+    e.data_from_pdf()
