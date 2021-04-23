@@ -15,10 +15,10 @@ class ExtractData:
         tables = camelot.read_pdf(self.filename, pages="1-end", line_scale=30, strip_text=";\n")
 
         # convert each table in a dataframe
-        df_table = [tab.df for tab in tables]
+        df_tables = [tab.df for tab in tables]
 
         # concatenate all dataframe into one
-        df = pd.concat(df_table, ignore_index=True)
+        df = pd.concat(df_tables, ignore_index=True)
 
         # fix dataframe header
         df.columns = df.iloc[0]
