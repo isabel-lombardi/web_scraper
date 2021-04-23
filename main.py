@@ -16,16 +16,16 @@ if __name__ == "__main__":
     allowed_states = {"usa": "us-usd/", "canada": "ca-cad/"}
 
     parser = ArgumentParser(description="Web Scraper Kaleyra Fares")
-    parser.add_argument("-s", "-state", type=str, help="State", choices=allowed_states.keys())
+    parser.add_argument("state", type=str, help="State", choices=allowed_states.keys())
 
-    parser.add_argument("-o", "-output-path", type=str, help="Output Path")
+    parser.add_argument("output_path", type=str, help="Output Path")
     args = parser.parse_args()
 
-    url = "{}/{}".format(base_url, allowed_states[args.s])
+    url = "{}/{}".format(base_url, allowed_states[args.state])
 
     s = PDFScraper(url)
     s.get_pdf()
-    pdf_path = s.save_pdf(args.o)
+    pdf_path = s.save_pdf(args.output_path)
 
     e = ExtractData(pdf_path)
     e.data_from_pdf()

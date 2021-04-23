@@ -5,8 +5,8 @@
 <h3>How to run</h3>
 <p>The program can be run, via the <b>main.py</b> file, from the command line specifying the arguments:
 <ul>
-    <li><b>-s</b> or <b>-state</b>, The name of the State for which you want to extract data</li>
-    <li><b>-o</b> or <b>-output-path</b>, The name of the folder to save files to</li>
+    <li><b>state</b>, The name of the State for which you want to extract data</li>
+    <li><b>output-path</b>, The name of the folder or path to save files to</li>
 </ul>
 
 
@@ -30,4 +30,5 @@ the choice of the state (The availability is visible in the allowed_states dicti
 <ul>
         <li><b>data_from_pdf</b> method, which takes care of extracting the tabulated data of the PDF and, 
         after a small processing, to save them in CSV format.</li>
+</ul>
 </ul>
