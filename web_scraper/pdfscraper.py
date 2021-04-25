@@ -28,7 +28,7 @@ class PDFScraper:
 
             try:
                 # extracting the URL found within a page’s <a> tags and href
-                link = soup.find("a", attrs={"href": re.compile(r'(.pdf)')})  # to find link ends with ".pdf"
+                link = soup.find("a", href=re.compile(r'(.pdf)'))  # to find link ends with ".pdf"
 
                 # clear link from html structure
                 # [^"\s]] search for any character except those in brackets after "^"
