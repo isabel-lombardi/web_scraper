@@ -1,3 +1,4 @@
+import os
 from web_scraper.pdfscraper import PDFScraper
 from web_scraper.extract_data import ExtractData
 from argparse import ArgumentParser
@@ -21,7 +22,7 @@ if __name__ == "__main__":
     parser.add_argument("output_path", type=str, help="Output Path")
     args = parser.parse_args()
 
-    url = "{}/{}".format(base_url, allowed_states[args.state])
+    url = os.path.join(base_url, allowed_states[args.state])
 
     s = PDFScraper(url)
     s.get_pdf()
